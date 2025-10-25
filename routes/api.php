@@ -3,20 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\http\Controllers\apiController;
-
+use App\Http\Controllers\AuthController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
-Route::post('/form', [apiController::class, 'form'])->name('form');
-
-Route::get('/catalog', function (Request $request) {
-    return response()->json([
-        'data' => [
-            ['id' => 1, 'name' => 'name 1'],
-            ['id' => 2, 'name' => 'name 2'],
-        ]
-    ]);
+Route::get('/csrf-token', function (Request $request) { return response()->json(['csrf_token' => csrf_token()]); });
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
 });
-
-Route::post('/forma', [apiController::class, 'forma'])->name('forma');
