@@ -15,13 +15,13 @@ class AuthController extends Controller
         $validated = $request->validate([
             'userName' => 'required|string|max:255|unique:users,userName',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'pass' => 'required|string|min:6|same:rePass',
+            'password' => 'required|string|min:6|same:rePassword',
         ]);
         
         $user = User::create([
-            'name' => $validated['userName'],
+            'userName' => $validated['userName'],
             'email' => $validated['email'],
-            'password' => Hash::make($validated['pass']),
+            'password' => Hash::make($validated['password']),
         ]);
 
         return response()->json(['message' => 'Registration successful'], 201);
@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         // Авторизация по email или username
         $user = User::where('email', $request->login)
-                    ->orWhere('name', $request->login)
+                    ->orWhere('userName', $request->login)
                     ->first();
 
         if (! $user || ! Hash::check($request->pass, $user->password)) {

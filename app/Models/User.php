@@ -15,7 +15,7 @@ class User extends Authenticatable
      * Атрибуты, которые можно массово заполнять.
      */
     protected $fillable = [
-        'name',
+        'userName',
         'email',
         'password',
     ];
