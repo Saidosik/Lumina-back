@@ -31,7 +31,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'login' => 'required|string',
-            'pass' => 'required|string',
+            'password' => 'required|string',
         ]);
 
         // Авторизация по email или username
@@ -39,7 +39,7 @@ class AuthController extends Controller
                     ->orWhere('userName', $request->login)
                     ->first();
 
-        if (! $user || ! Hash::check($request->pass, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'login' => ['Invalid credentials.'],
             ]);
