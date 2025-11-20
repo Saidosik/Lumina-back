@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Cookie;
+
 
 class AuthController extends Controller
 {
@@ -47,13 +49,22 @@ class AuthController extends Controller
 
         // Создание токена
         $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json(['message' => 'Login successful'])->cookie(
+            'auth_token',
+            $token,
+            config('sanctum.expiration', 60 * 24 * 7), // используем настройки Sanctum
+            '/',
+            env('SESSION_DOMAIN'), // из конфига
+            true,  // secure - true для production
+            true,  // httpOnly - защита от XSS
+            false,
+            'none'  // или 'strict' для большей безопасности
+        );
 
-        return response()->json([
-            'message' => 'Login successful',
-            'token' => $token,
-            'user' => $user
-        ]);
+        
     }
+        
+    
 
     public function logout(Request $request)
     {
