@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Cookie;
 class AuthController extends Controller
 {
     public function register(Request $request)
-    {
-        
+    {   
         $validated = $request->validate([
             'userName' => 'required|string|max:255|unique:users,userName',
             'email' => 'required|string|email|max:255|unique:users,email',
