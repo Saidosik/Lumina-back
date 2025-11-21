@@ -44,21 +44,11 @@ class AuthController extends Controller
             throw ValidationException::withMessages([
                 'login' => ['Invalid credentials.'],
             ]);
+            return responce()->json(["error"]);
         }
 
-        // Создание токена
-        $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json(['message' => 'Login successful'])->cookie(
-            'auth_token',
-            $token,
-            config('sanctum.expiration', 60 * 24 * 7), // используем настройки Sanctum
-            '/',
-            env('SESSION_DOMAIN'), // из конфига
-            true,  // secure - true для production
-            true,  // httpOnly - защита от XSS
-            false,
-            'none'  // или 'strict' для большей безопасности
-        );
+        $token = $user->createToken('API Token')->plainTextToken;
+        return response()->json(['TOKEN' => $token], 200);
 
         
     }
