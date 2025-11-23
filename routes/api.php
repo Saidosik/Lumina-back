@@ -8,7 +8,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
+    Route::post('/user', [AuthController::class, 'user']);
 });
 
 Route::post('/sendMessage', [App\Http\Controllers\ChatController::class, 'sendMessage']);
+Route::post('/checkSender', [App\Http\Controllers\ChatController::class, 'checkSender']);
+Route::post('/getMess', [App\Http\Controllers\ChatController::class, 'showMessage']);
