@@ -14,3 +14,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/sendMessage', [App\Http\Controllers\ChatController::class, 'sendMessage']);
 Route::post('/checkSender', [App\Http\Controllers\ChatController::class, 'checkSender']);
 Route::post('/getMess', [App\Http\Controllers\ChatController::class, 'showMessage']);
+Route::post('/createChat', [App\Http\Controllers\ChatController::class, 'createChat']);
+Route::post('/allChat', [App\Http\Controllers\ChatController::class, 'allChat']);
