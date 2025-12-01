@@ -11,6 +11,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 
+use Illuminate\Http\RedirectResponse;
+
+
+
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -35,11 +39,9 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'login' => ['required|string'],
-            'password' => ['required'],
+            'login' => 'required|string',
+            'password' => 'required',
         ]);
-        return response()->json(Auth::attempt(['email' => $credentials['login'],
-    'password' => Hash::check]));
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
