@@ -67,8 +67,6 @@ class ChatController extends Controller
             ], 200);
     }
 
-
-
     public function allChat(){
         $chat = Chat::all();
         if(!empty($chat)){
