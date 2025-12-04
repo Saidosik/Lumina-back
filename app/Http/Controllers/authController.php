@@ -45,6 +45,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
+            
             return response()->json(['message' => __('Welcome!')]);
         }
         // if (! $user || ! Hash::check($request->password, $user->password)) {
