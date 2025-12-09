@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 
 use Illuminate\Http\RedirectResponse;
