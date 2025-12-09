@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Cookie;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+
+use Illuminate\Http\RedirectResponse;
+
 
 
 class AuthController extends Controller
@@ -16,9 +22,9 @@ class AuthController extends Controller
     {   
         $validated = $request->validate([
             'userName' => 'required|string|max:255',
-            'login' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|string|email|max:255',
+            'login' => 'required|string|max:255|unique:users,login',
+            'password' => 'required|string|min:6|same:rePassword',
         ]);
 
         //  return response()->json(['loginCheck' => $request], 201);
@@ -26,6 +32,7 @@ class AuthController extends Controller
             'userName' => $validated['userName'],
             'login' => $validated['login'],
             'email' => $validated['email'],
+            'login' => $validated['login'],
             'password' => Hash::make($validated['password']),
         ]);
 
@@ -34,16 +41,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // $request->validate([
-        //     'login' => 'required|string',
-        //     'password' => 'required|string',
-        // ]);
+        $credentials = $request->validate([
+            'login' => 'required|string',
+            'password' => 'required',
+        ]);
+        if (Auth::attempt($credentials)) {
 
-        // // Авторизация по email или username
-        // $user = User::where('email', $request->login)
-        //             ->orWhere('userName', $request->login)
-        //             ->first();
-
+            $request->session()->regenerate();
+            
+            return response()->json(['message' => __('Welcome!')]);
+        }
         // if (! $user || ! Hash::check($request->password, $user->password)) {
         //     throw ValidationException::withMessages([
         //         'login' => ['Invalid credentials.'],
@@ -51,18 +58,14 @@ class AuthController extends Controller
         //     return responce()->json(["error"]);
         // }
 
-        // $token = $user->createToken('API Token')->plainTextToken;
+        //$token = $user->createToken('API Token')->plainTextToken;
         // return response()->json(['TOKEN' => $token], 200);
-
-
-        $credentials = $request->validate([
-            'login' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        if(Auth::attempt($credentials)){
-            return response()->json(['message'=>Auth::user()->userName], 200);
-        }
+        
+    }
+    
+    public function login1(Request $request)
+    { 
+        return response()->json($request->all());
     }
 
     public function logout(Request $request)
