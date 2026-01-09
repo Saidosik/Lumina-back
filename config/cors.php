@@ -9,6 +9,7 @@ return [
     'allowed_origins' => [
         'http://api.localhost.test:8001',
         'http://app.localhost.test:3000',
+        'http://app.localhost.test',
         'http://api.localhost.test',
         'http://localhost:3000'
     ],
