@@ -21,28 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('/allChat', [App\Http\Controllers\ChatController::class, 'allChat']);
 });
 
-Route::get('/csrf-cookie', function (Request $request) {
-    $token = csrf_token();
-    
-    // Устанавливаем cookie вручную
-    $cookie = cookie(
-        'XSRF-TOKEN', 
-        $token, 
-        60, // минуты
-        null, // путь
-        null, // домен
-        $request->secure(), // secure flag
-        true, // httpOnly false (чтобы JavaScript мог прочитать)
-        false, // raw
-        'lax' // sameSite
-    );
-    
-    return response()->json([
-        'success' => true,
-        'message' => 'CSRF cookie установлен',
-        'token' => $token,
-        'timestamp' => now()->toISOString()
-    ])->withCookie($cookie);
+Route::get('/csrf-cookie', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
 });
 
 Route::post('/sendMessage', [ChatController::class, 'sendMessage']);

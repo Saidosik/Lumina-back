@@ -15,11 +15,9 @@ class User extends Authenticatable
      * Атрибуты, которые можно массово заполнять.
      */
     protected $fillable = [
-        'userName',
-        'login',
+        'name',
         'email',
         'password',
-        'login',
     ];
 
     /**
@@ -27,15 +25,13 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'login',
-        'remember_token',
     ];
 
     /**
      * Преобразования типов.
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     public function posts(){
