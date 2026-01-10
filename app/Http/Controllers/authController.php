@@ -63,7 +63,12 @@ class AuthController extends Controller
         // return response()->json(['TOKEN' => $token], 200);
         
     }
-    
+
+
+    public function me(Request $request)
+    {
+        return response()->json($request->user());
+    }
    
 
     public function logout(Request $request)
@@ -74,6 +79,7 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
+       
         return response()->json($request->user());
     }
 }
