@@ -50,6 +50,8 @@ class AuthController extends Controller
             
             return response()->json(['message' => __('Welcome!')]);
         }
+
+        return response()->json(['message' =>'Неправильный пароль или имя'], 419);
         // if (! $user || ! Hash::check($request->password, $user->password)) {
         //     throw ValidationException::withMessages([
         //         'login' => ['Invalid credentials.'],
@@ -61,11 +63,13 @@ class AuthController extends Controller
         // return response()->json(['TOKEN' => $token], 200);
         
     }
-    
-    public function login1(Request $request)
-    { 
-        return response()->json($request->all());
+
+
+    public function me(Request $request)
+    {
+        return response()->json($request->user());
     }
+   
 
     public function logout(Request $request)
     {
@@ -75,6 +79,7 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
+       
         return response()->json($request->user());
     }
 }

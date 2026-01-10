@@ -7,10 +7,11 @@ use App\Http\Controllers\ChatController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/login1', [AuthController::class, 'login1']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::post('/user', [AuthController::class, 'user']);
+    Route::post('/me', [AuthController::class, 'me']);
 
     // Route::post('/sendMessage', [App\Http\Controllers\ChatController::class, 'sendMessage']);
     // Route::post('/checkSender', [App\Http\Controllers\ChatController::class, 'checkSender']);
