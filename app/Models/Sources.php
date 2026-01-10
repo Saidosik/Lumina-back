@@ -17,6 +17,7 @@ class Sources extends Model
     public function post(){
         return $this->hasMany(Post::class, 'post_id');
     }
+    
     public function comments(){
         return $this->hasMany(Comment::class, 'source_id');
     }

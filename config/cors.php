@@ -10,7 +10,12 @@ return [
         'http://api.localhost.test:8001',
         'http://app.localhost.test:3000',
         'http://api.localhost.test',
-        'http://localhost:3000'
+        'http://app.localhost.test',
+        'http://localhost:3000',
+        'http://localhost:8000',
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:8000',
+        'http://127.0.0.1:8001',
     ],
 
     'allowed_origins_patterns' => [],

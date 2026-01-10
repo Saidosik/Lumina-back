@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\PostController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -48,3 +49,5 @@ Route::post('/checkSender', [ChatController::class, 'checkSender']);
 Route::post('/getMess', [ChatController::class, 'showMessage']);
 Route::post('/createChat', [ChatController::class, 'createChat']);
 Route::get('/allChat', [ChatController::class, 'allChat']);
+
+Route::post('/create-post', [PostController::class, 'createPost']);
