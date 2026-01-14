@@ -20,31 +20,30 @@ class AuthController extends Controller
     public function register(Request $request)
     {   
         $validated = $request->validate([
-            'userName' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'login' => 'required|string|max:255|unique:users,login',
-            'password' => 'required|string|min:6|same:rePassword',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
-        //  return response()->json(['loginCheck' => $request], 201);
-        $user = User::create([
-            'userName' => $validated['userName'],
-            'login' => $validated['login'],
-            'email' => $validated['email'],
-            'login' => $validated['login'],
-            'password' => Hash::make($validated['password']),
-        ]);
+        $user = User::create($validated);
 
-        return response()->json(['message' => 'Registration successful'], 201);
+        if(!empty($user)){
+            Auth::login($user);
+            $request->session()->regenerate();
+
+            return response()->json(['message' => 'Registration successful'], 201);
+        }
     }
 
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'login' => 'required|string',
+            'email' => 'required|exists:users,email',
             'password' => 'required',
         ]);
+
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
 
             $request->session()->regenerate();
             
@@ -52,16 +51,6 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' =>'Неправильный пароль или имя'], 419);
-        // if (! $user || ! Hash::check($request->password, $user->password)) {
-        //     throw ValidationException::withMessages([
-        //         'login' => ['Invalid credentials.'],
-        //     ]);
-        //     return responce()->json(["error"]);
-        // }
-
-        //$token = $user->createToken('API Token')->plainTextToken;
-        // return response()->json(['TOKEN' => $token], 200);
-        
     }
 
 
@@ -79,7 +68,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-       
         return response()->json($request->user());
     }
 }
